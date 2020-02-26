@@ -10,12 +10,54 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(ggmosaic)
 library(readxl)
+library(dplyr)
+library(tidyr)
 ```
 ```{r}
 dat <- readxl::read_xls('GSS.xls')
 names(dat) <- c('year','id','marital','sex','party','happiness','ballot')
+dat <- dat %>% drop_na()
 str(dat)
 ```
+1. How does the happiness of a respondent relate to the marriage status?
+```{r}
+dat <- dat %>% mutate(happy = case_when(
+  happiness == "Not too happy" ~ "Not happy",
+  happiness == "Pretty happy"  ~ "Happy",
+  happiness == "Very happy"  ~ "Happy",
+  happiness == "Don't know" ~ "No answer",
+  happiness == "No answer" ~ "No answer",
+  happiness == "Not applicable" ~ "No answer"))
+ggplot(dat, aes(x= marital, fill = happy)) + geom_bar(position = 'fill')
+```
 
+For married people, about 80% said they were happy. About 70% of the separated people said they were happy. It is, therefore, easier for married people to be happy. About 25% of the separated people said they were not happy. And less than 10% of married people say they are not happy.
 
+2. Does the sex of the respondent affect the relationship you found in Q1?
+```{r}
+ggplot(dat, aes(x= marital, fill = happy)) + geom_bar(position = 'fill')+facet_wrap(~sex)
+```
+
+In fact, the gender of the respondents did not affect the findings in Q1.
+
+3. How does the happniess of a respondent relate to the political party affiliation?
+4. Raise four questions that can be answered by the GSS dataset. Extract appropriate data from the website, explore, and answer the questions.
+```{r}
+# Question 1 #
+## How does the year of a respondent relate to the marriage status?
+dat <- dat %>% mutate(time = case_when(
+  year < 1980 ~ "1970s",
+  year < 1990 ~ "1980s",
+  year < 2000 ~ "1990s",
+  year < 2010 ~ "2000s",
+  year < 2020 ~ "2010s"))
+ggplot(dat, aes(x = marital, fill = time)) + geom_bar()
+```
+
+People in the 1970s had the lowest probability of divorce. For other marital statuses, the proportion of people in each age is similar.
+
+```{r}
+# Question 2#
+##
+```
 
