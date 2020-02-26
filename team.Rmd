@@ -50,10 +50,10 @@ In fact, the gender of the respondents did not affect the findings in Q1.
 dat[is.na(dat$`party`), ]
 dat1 <- dat[!is.na(dat$'party'), ]
 
-ggplot(dat1, aes(x=happiness, fill=party)) + geom_bar(position='fill')
+ggplot(dat1, aes(x=party, fill=happiness)) + geom_bar(position='fill') + coord_flip()
 ```
 
-For people who feel "very happy"and "not applicable", parties which are not straight democracyand republican and strong democracy and republican are weighted similar. For people who feel "Pretty happy", not straight democracy weighted the largest proportion. For people who feel not too happy, people whose party is not straight dempcracy is weighed higher than other parties.For people who no answer, people whose party is strong republican is weighed less than other parties. For people who don't know, people whose party is independent is weighed higher than other parties which is the largest weight in this chart.
+For people whose party "Don't know" has the largest part of proportion of "very happy"and also has the largest part of "not too happy". For people who feel "very happy"and "not applicable", parties which are not straight democracyand republican and strong democracy and republican are weighted similar. For people who feel "Pretty happy", not straight democracy weighted the largest proportion. For people who feel not too happy, people whose party is not straight dempcracy is weighed higher than other parties.For people who no answer, people whose party is strong republican is weighed less than other parties. 
 
 
 4. Raise four questions that can be answered by the GSS dataset. Extract appropriate data from the website, explore, and answer the questions.
