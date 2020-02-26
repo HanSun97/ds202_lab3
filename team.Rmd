@@ -21,6 +21,7 @@ str(dat)
 ```
 1. How does the happiness of a respondent relate to the marriage status?
 ```{r}
+
 dat <- dat %>% mutate(happy = case_when(
   happiness == "Not too happy" ~ "Not happy",
   happiness == "Pretty happy"  ~ "Happy",
@@ -28,14 +29,18 @@ dat <- dat %>% mutate(happy = case_when(
   happiness == "Don't know" ~ "No answer",
   happiness == "No answer" ~ "No answer",
   happiness == "Not applicable" ~ "No answer"))
-ggplot(dat, aes(x= marital, fill = happy)) + geom_bar(position = 'fill')
+dat %>% 
+  filter(!is.na(marital)) %>%
+  ggplot(aes(x= marital, fill = happy)) + geom_bar(position = 'fill')
 ```
 
 For married people, about 80% said they were happy. About 70% of the separated people said they were happy. It is, therefore, easier for married people to be happy. About 25% of the separated people said they were not happy. And less than 10% of married people say they are not happy.
 
 2. Does the sex of the respondent affect the relationship you found in Q1?
 ```{r,fig.width=12, fig.height=2}
-ggplot(dat, aes(x= marital, fill = happy)) + geom_bar(position = 'fill')+facet_wrap(~sex)
+dat %>% 
+  filter(!is.na(sex)) %>%
+  ggplot(aes(x= marital, fill = happy)) + geom_bar(position = 'fill')+facet_grid(~sex)
 ```
 
 In fact, the gender of the respondents did not affect the findings in Q1.
@@ -48,7 +53,7 @@ dat1 <- dat[!is.na(dat$'party'), ]
 ggplot(dat1, aes(x=happiness, fill=party)) + geom_bar(position='fill')
 ```
 
-For people who feel very happy and pretty happy and not applicable, parties which are not straight democracyand republican and strong democracy and republican are weighted similar. For people who feel not too happy, people whose party is not straight dempcracy is weighed higher than other parties.For people who no answer, people whose party is strong republican is weighed less than other parties. For people who don't know, people whose party is independent is weighed higher than other parties which is the largest weight in this chart.
+For people who feel "very happy"and "not applicable", parties which are not straight democracyand republican and strong democracy and republican are weighted similar. For people who feel "Pretty happy", not straight democracy weighted the largest proportion. For people who feel not too happy, people whose party is not straight dempcracy is weighed higher than other parties.For people who no answer, people whose party is strong republican is weighed less than other parties. For people who don't know, people whose party is independent is weighed higher than other parties which is the largest weight in this chart.
 
 
 4. Raise four questions that can be answered by the GSS dataset. Extract appropriate data from the website, explore, and answer the questions.
